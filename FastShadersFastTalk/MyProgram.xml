@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<program>
+<shader type="vertex"><![CDATA[
+#ifdef GL_ES
+precision highp float;
+#endif
+
+attribute vec4 position;
+attribute vec2 texcoord;
+
+uniform mat4 transform;
+
+varying vec2 v_texcoord;
+
+void main() {
+	v_texcoord = texcoord;
+	gl_Position = transform * position;
+}
+]]></shader>
+<shader type="fragment"><![CDATA[
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+varying vec2 v_texcoord;
+
+uniform sampler2D texture;
+uniform float alpha;
+
+void main() {
+	vec4 color = texture2D(texture, v_texcoord);
+	gl_FragColor = color * alpha;
+}
+]]></shader>
+<attribute name="position" location="0"/>
+<attribute name="texcoord" location="1"/>
+<uniform name="transform" type="mat4" value="IDENTITY"/>
+<uniform name="texture" type="int" value="0"/>
+<uniform name="alpha" type="float" value="1.0"/>
+</program>
